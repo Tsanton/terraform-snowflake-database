@@ -2,10 +2,15 @@
     "packages": {
         ".": {
             "release-type": "terraform-module",
+            "component": "db",
+            "pull-request-title-pattern": "ci(database): Release${component} ${version}",
+            "pull-request-header": "terraform-snowflake-database",
+            "initial-version": "0.1.0",
             "bump-minor-pre-major": true,
             "bump-patch-for-minor-pre-major": true,
             "include-v-in-tag": true,
-            "changelog-type": "github"
+            "changelog-type": "github",
+            "release-as": ""
         }
     }
 }
