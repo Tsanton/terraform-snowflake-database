@@ -1,0 +1,8 @@
+*.tfvars*
+*.env*
+*.tfstate*
+*.terraform*
+.DS_Store
+*rest-client/*
+.providercache/*
+!.providercache/.gitkeep
