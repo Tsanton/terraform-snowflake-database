@@ -18,5 +18,4 @@ jobs:
         with:
           include-v-in-tag: true
           command: manifest
-          default-branch: master
           token: ${{ secrets.GITHUB_TOKEN }}
