@@ -1,6 +1,12 @@
 resource "snowflake_role" "db_sys_admin" {
   name    = upper("${snowflake_database.db.name}_SYS_ADMIN")
   comment = upper(jsonencode(merge(var.tags_map, {})))
+
+  lifecycle {
+    replace_triggered_by = [
+      snowflake_database.db.name
+    ]
+  }
 }
 
 resource "snowflake_role_ownership_grant" "db_sys_admin_ownership" {
@@ -16,9 +22,17 @@ resource "snowflake_role_grants" "db_sys_admin_granted_sysadmin" {
 
   roles = ["SYSADMIN"]
 
+  enable_multiple_grants = true
+
   depends_on = [
     snowflake_role_ownership_grant.db_sys_admin_ownership
   ]
+
+  lifecycle {
+    replace_triggered_by = [
+      snowflake_database.db.name
+    ]
+  }
 }
 
 resource "snowflake_database_grant" "db_sys_admin_usage" {

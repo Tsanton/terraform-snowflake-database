@@ -22,8 +22,14 @@ provider "snowflake" {
 variable "db_prefix" { type = string }
 variable "db_identifier" { type = string }
 
-module "db" {
-  source        = "../"
+module "db1" {
+  source        = "../../"
   db_prefix     = var.db_prefix
   db_identifier = var.db_identifier
+}
+
+module "db2" {
+  source        = "../../"
+  db_prefix     = "INTEGRATIONTEST"
+  db_identifier = "STATIC_DB"
 }
