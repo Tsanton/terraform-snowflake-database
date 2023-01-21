@@ -1,4 +1,4 @@
-package no_test_main_testing_test
+package multiple_test
 
 import (
 	"os"
