@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/Tsanton/terraform-snowflake-database/compare/v1.0.1...v1.0.2) (2023-01-21)
+
+
+### Bug Fixes
+
+* name output error ([10c75a1](https://github.com/Tsanton/terraform-snowflake-database/commit/10c75a1ab023aa3423f26acbf9ef401b08b2bd22))
+
 ## [1.0.1](https://github.com/Tsanton/terraform-snowflake-database/compare/v1.0.0...v1.0.1) (2023-01-21)
 
 
