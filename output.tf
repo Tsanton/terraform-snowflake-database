@@ -10,7 +10,7 @@ output "sys_admin_name" {
 
 output "user_admin_name" {
   description = "The name of the database useradmin role"
-  value       = snowflake_role.db_user_admin
+  value       = snowflake_role.db_user_admin.name
 }
 
 output "sys_admin_default_warehouse_name" {
