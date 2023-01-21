@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/Tsanton/terraform-snowflake-database/compare/v1.0.0...v1.0.1) (2023-01-21)
+
+
+### Bug Fixes
+
+* change db name now possible. Added tests ([b1ba83d](https://github.com/Tsanton/terraform-snowflake-database/commit/b1ba83df79640ab8f66964e0b0d8a0d2a21a5f52))
+
 ## [1.0.0](https://github.com/Tsanton/terraform-snowflake-database/compare/v0.1.0...v1.0.0) (2023-01-20)
 
 
