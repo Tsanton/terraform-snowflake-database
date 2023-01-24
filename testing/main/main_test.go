@@ -11,7 +11,10 @@ import (
 	i "github.com/tsanton/goflake-client/goflake/integration"
 	a "github.com/tsanton/goflake-client/goflake/models/assets"
 	d "github.com/tsanton/goflake-client/goflake/models/describables"
+	dg "github.com/tsanton/goflake-client/goflake/models/describables/grants"
 	e "github.com/tsanton/goflake-client/goflake/models/entities"
+	eg "github.com/tsanton/goflake-client/goflake/models/entities/grants"
+	"github.com/tsanton/goflake-client/goflake/models/enums"
 	u "github.com/tsanton/goflake-client/goflake/utilities"
 )
 
@@ -144,4 +147,31 @@ func Test_local_user_admin_hierarchy(t *testing.T) {
 	aa, ok := lo.Find(hierarchy.InheritingRoles, func(i e.InheritedRole) bool { return i.ParentRoleName == "ACCOUNTADMIN" })
 	a.True(ok)
 	a.Equal(aa.DistanceFromSource, 2)
+}
+
+func Test_local_sys_admin_usage(t *testing.T) {
+	/* Arrange */
+	a := assert.New(t)
+	cli, _ := Goflake()
+
+	/* Act */
+	res, err := g.Describe[*eg.RoleGrants](cli, &dg.RoleGrant{RoleName: "INTEGRATION_TEST_DB_SYS_ADMIN"})
+
+	/* Assert */
+	a.Nil(err)
+	assert.Len(t, res.Grants, 2)
+
+	dbUsage, ok := lo.Find(res.Grants, func(i eg.RoleGrant) bool {
+		return i.Privilege == enums.PrivilegeUsage && i.GrantedOn == enums.SnowflakeObjectDatabase
+	})
+	assert.True(t, ok)
+	assert.Equal(t, "SYSADMIN", dbUsage.GrantedBy)
+	assert.Equal(t, "INTEGRATION_TEST_DB", dbUsage.GrantTargetName)
+
+	warehouseUsage, ok := lo.Find(res.Grants, func(i eg.RoleGrant) bool {
+		return i.Privilege == enums.PrivilegeUsage && i.GrantedOn == enums.SnowflakeObjectWarehouse
+	})
+	assert.True(t, ok)
+	assert.Equal(t, "SYSADMIN", warehouseUsage.GrantedBy)
+	assert.Equal(t, "INTEGRATION_TEST_DB_SYS_ADMIN_WH", dbUsage.GrantTargetName)
 }
