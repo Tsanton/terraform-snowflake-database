@@ -11,9 +11,13 @@ resource "snowflake_database_grant" "db_ownership" {
 
   privilege = "OWNERSHIP"
   roles = [
-    "SYSADMIN"
+    snowflake_role.db_sys_admin.name
   ]
 
   with_grant_option      = false
   enable_multiple_grants = true
+
+  depends_on = [
+    snowflake_role_ownership_grant.db_sys_admin_ownership
+  ]
 }

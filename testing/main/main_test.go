@@ -74,7 +74,7 @@ func Test_database_exists(t *testing.T) {
 	/* Assert */
 	a.Nil(err)
 	a.Equal(db.Name, "INTEGRATION_TEST_DB")
-	a.Equal(db.Owner, "SYSADMIN")
+	a.Equal(db.Owner, "INTEGRATION_TEST_DB_SYS_ADMIN")
 }
 
 func Test_local_sys_admin_exists(t *testing.T) {
@@ -149,7 +149,7 @@ func Test_local_user_admin_hierarchy(t *testing.T) {
 	a.Equal(aa.DistanceFromSource, 2)
 }
 
-func Test_local_sys_admin_usage(t *testing.T) {
+func Test_local_sys_admin_privileges(t *testing.T) {
 	/* Arrange */
 	a := assert.New(t)
 	cli, _ := Goflake()
@@ -159,19 +159,26 @@ func Test_local_sys_admin_usage(t *testing.T) {
 
 	/* Assert */
 	a.Nil(err)
-	assert.Len(t, res.Grants, 2)
+	assert.Len(t, res.Grants, 3)
 
 	dbUsage, ok := lo.Find(res.Grants, func(i eg.RoleGrant) bool {
 		return i.Privilege == enums.PrivilegeUsage && i.GrantedOn == enums.SnowflakeObjectDatabase
 	})
 	assert.True(t, ok)
-	assert.Equal(t, "SYSADMIN", dbUsage.GrantedBy)
+	assert.Equal(t, "INTEGRATION_TEST_DB_SYS_ADMIN", dbUsage.GrantedBy)
 	assert.Equal(t, "INTEGRATION_TEST_DB", dbUsage.GrantTargetName)
+
+	dbOwnership, ok := lo.Find(res.Grants, func(i eg.RoleGrant) bool {
+		return i.Privilege == enums.PrivilegeOwnership && i.GrantedOn == enums.SnowflakeObjectDatabase
+	})
+	assert.True(t, ok)
+	assert.Equal(t, "INTEGRATION_TEST_DB_SYS_ADMIN", dbOwnership.GrantedBy)
+	assert.Equal(t, "INTEGRATION_TEST_DB", dbOwnership.GrantTargetName)
 
 	warehouseUsage, ok := lo.Find(res.Grants, func(i eg.RoleGrant) bool {
 		return i.Privilege == enums.PrivilegeUsage && i.GrantedOn == enums.SnowflakeObjectWarehouse
 	})
 	assert.True(t, ok)
 	assert.Equal(t, "SYSADMIN", warehouseUsage.GrantedBy)
-	assert.Equal(t, "INTEGRATION_TEST_DB_SYS_ADMIN_WH", dbUsage.GrantTargetName)
+	assert.Equal(t, "INTEGRATION_TEST_DB_SYS_ADMIN_WH", warehouseUsage.GrantTargetName)
 }
