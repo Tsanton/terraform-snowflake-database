@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/Tsanton/terraform-snowflake-database/compare/v1.0.2...v1.0.3) (2023-01-24)
+
+
+### Bug Fixes
+
+* local db sys admin as db owner ([c1a5864](https://github.com/Tsanton/terraform-snowflake-database/commit/c1a58641cd9c969b1b51a0c123a2e39cc4d16ee7))
+
 ## [1.0.2](https://github.com/Tsanton/terraform-snowflake-database/compare/v1.0.1...v1.0.2) (2023-01-21)
 
 
